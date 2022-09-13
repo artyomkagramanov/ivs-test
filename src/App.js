@@ -49,7 +49,7 @@ function App() {
           const permissions = await handlePermissions();
           const devices = await getDevices();
           if(devices.videoDevices.length) {
-            const candidateVideoDeviceId = devices.videoDevices[1].deviceId;
+            const candidateVideoDeviceId = devices.videoDevices[0].deviceId;
             handleDeviceChange('video', candidateVideoDeviceId);
           }
           if(devices.audioDevices.length) {

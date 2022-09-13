@@ -10,7 +10,8 @@ async function handlePermissions() {
         }
         permissions = { video: true, audio: true };
     } catch (err) {
-        permissions = { video: false, audio: false, error: err.message };
+        console.dir(err)
+        permissions = { video: false, audio: false, error: err.message, errorType: err.name };
     }
     return permissions;
 }
