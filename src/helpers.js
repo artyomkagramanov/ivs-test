@@ -1,32 +1,19 @@
-async function handlePermissions() {
-    let permissions = {
-        audio: false,
-        video: false,
-    };
+async function requestPermissionAndGetDevices() {
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        for (const track of stream.getTracks()) {
-            track.stop();
+        await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter((d) => d.kind === 'videoinput');
+        const audioDevices = devices.filter((d) => d.kind === 'audioinput');
+        return {
+            videoDevices,
+            audioDevices
         }
-        permissions = { video: true, audio: true };
     } catch (err) {
-        console.dir(err)
-        permissions = { video: false, audio: false, error: err.message, errorType: err.name };
+        throw err;
     }
-    return permissions;
 }
 
-async function getDevices() {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = devices.filter((d) => d.kind === 'videoinput');
-    const audioDevices = devices.filter((d) => d.kind === 'audioinput');
-    return {
-        videoDevices,
-        audioDevices
-    }
-}
 
 export {
-    handlePermissions,
-    getDevices,
+    requestPermissionAndGetDevices,
 };
